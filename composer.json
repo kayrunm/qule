@@ -1,0 +1,34 @@
+{
+    "name": "kayrunm/qule",
+    "description": "A package for cleaner GraphQL use in your PHP application.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kieran Marshall",
+            "email": "kieran@kieranmarshall.co.uk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kayrunm\\Qule\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kayrunm\\Qule\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true
+}
