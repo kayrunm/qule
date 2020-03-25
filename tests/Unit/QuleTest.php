@@ -38,7 +38,7 @@ class QuleTest extends TestCase
         $this->handler->append(new Response());
 
         $qule = new Qule($this->guzzle, $this->filepath);
-        $qule->query(QueryStub::class);
+        $qule->query(new QueryStub());
 
         $request = $this->handler->getLastRequest();
 
@@ -54,7 +54,7 @@ class QuleTest extends TestCase
         $this->handler->append(new Response());
 
         $qule = new Qule($this->guzzle, $this->filepath);
-        $qule->query(QueryStub::class, [
+        $qule->query(new QueryStub(), [
             'foo' => 'bar'
         ]);
 
@@ -68,7 +68,7 @@ class QuleTest extends TestCase
         $this->handler->append(new Response());
 
         $qule = new Qule($this->guzzle, $this->filepath);
-        $qule->query(QueryWithoutWrappingStub::class);
+        $qule->query(new QueryWithoutWrappingStub());
 
         $request = $this->handler->getLastRequest();
         $this->assertSame('{}', $request->getBody()->getContents());
@@ -82,7 +82,7 @@ class QuleTest extends TestCase
         $path = dirname(__FILE__) . '/../Support/fixtures/';
 
         $qule = new Qule($this->guzzle);
-        $qule->query(InlineQueryStub::class);
+        $qule->query(new InlineQueryStub());
 
         $request = $this->handler->getLastRequest();
         $this->assertSame('{"query":"{}"}', $request->getBody()->getContents());
@@ -94,6 +94,6 @@ class QuleTest extends TestCase
         $this->expectException(QueryFileDoesntExist::class);
 
         $qule = new Qule($this->guzzle);
-        $qule->query(QueryStub::class);
+        $qule->query(new QueryStub());
     }
 }

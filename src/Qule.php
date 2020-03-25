@@ -24,14 +24,11 @@ class Qule
     /**
      * Use the given query class to make a request to the GraphQL API.
      *
-     * @param  string  $class  The name of the class to use as a query.
+     * @param  \Kayrunm\Qule\Query  $query  The query class to use.
      * @param  array  $variables  The variables for the query.
      */
-    public function query(string $class, array $variables = [])
+    public function query(Query $query, array $variables = [])
     {
-        /** @var \Kayrunm\Qule\Query */
-        $query = new $class;
-
         return $this->guzzle->request(
             $query->getMethod(),
             $query->getEndpoint(),
