@@ -1,16 +1,18 @@
 <?php
 
-namespace Kayrunm\Qule\Tests;
+namespace Kayrunm\Qule\Tests\Unit;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Kayrunm\Qule\Exceptions\QueryFileDoesntExist;
 use Kayrunm\Qule\Qule;
+use Kayrunm\Qule\Response;
 use Kayrunm\Qule\Tests\Support\Stubs\InlineQueryStub;
 use Kayrunm\Qule\Tests\Support\Stubs\QueryStub;
 use Kayrunm\Qule\Tests\Support\Stubs\QueryWithoutWrappingStub;
+use Kayrunm\Qule\Tests\TestCase;
 
 class QuleTest extends TestCase
 {
@@ -35,7 +37,7 @@ class QuleTest extends TestCase
     /** @test */
     public function it_builds_the_request(): void
     {
-        $this->handler->append(new Response());
+        $this->handler->append(new GuzzleResponse());
 
         $qule = new Qule($this->guzzle, $this->filepath);
         $qule->query(new QueryStub());
@@ -51,7 +53,7 @@ class QuleTest extends TestCase
     /** @test */
     public function it_passes_variables_to_the_request(): void
     {
-        $this->handler->append(new Response());
+        $this->handler->append(new GuzzleResponse());
 
         $qule = new Qule($this->guzzle, $this->filepath);
         $qule->query(new QueryStub(), [
@@ -65,7 +67,7 @@ class QuleTest extends TestCase
     /** @test */
     public function it_doesnt_wrap_a_query_when_without_wrapping_is_enabled(): void
     {
-        $this->handler->append(new Response());
+        $this->handler->append(new GuzzleResponse());
 
         $qule = new Qule($this->guzzle, $this->filepath);
         $qule->query(new QueryWithoutWrappingStub());
@@ -77,7 +79,7 @@ class QuleTest extends TestCase
     /** @test */
     public function it_loads_a_query_inline(): void
     {
-        $this->handler->append(new Response());
+        $this->handler->append(new GuzzleResponse());
 
         $path = dirname(__FILE__) . '/../Support/fixtures/';
 
@@ -95,5 +97,16 @@ class QuleTest extends TestCase
 
         $qule = new Qule($this->guzzle);
         $qule->query(new QueryStub());
+    }
+
+    /** @test */
+    public function it_returns_a_response_object(): void
+    {
+        $this->handler->append(new GuzzleResponse());
+
+        $qule = new Qule($this->guzzle, $this->filepath);
+        $response = $qule->query(new QueryStub());
+
+        $this->assertInstanceOf(Response::class, $response);
     }
 }

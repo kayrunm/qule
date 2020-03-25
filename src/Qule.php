@@ -6,7 +6,6 @@ use GuzzleHttp\ClientInterface;
 use Kayrunm\Qule\Contracts\InlineQuery;
 use Kayrunm\Qule\Exceptions\QueryFileDoesntExist;
 use Kayrunm\Qule\Query;
-use Psr\Http\Message\ResponseInterface;
 
 class Qule
 {
@@ -28,9 +27,9 @@ class Qule
      * @param  \Kayrunm\Qule\Query  $query  The query class to use.
      * @param  array  $variables  The variables for the query.
      */
-    public function query(Query $query, array $variables = []): ResponseInterface
+    public function query(Query $query, array $variables = []): Response
     {
-        return $this->guzzle->request(
+        $response = $this->guzzle->request(
             $query->getMethod(),
             $query->getEndpoint(),
             [
@@ -40,6 +39,8 @@ class Qule
                 'body' => $this->buildQuery($query, $variables)
             ]
         );
+
+        return new Response($response);
     }
 
     /** @return string */
