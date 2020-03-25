@@ -75,6 +75,6 @@ class Qule
             throw QueryFileDoesntExist::file($filepath);
         }
 
-        return trim(file_get_contents($filepath));
+        return file_get_contents($filepath);
     }
 }

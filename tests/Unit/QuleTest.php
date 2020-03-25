@@ -45,7 +45,7 @@ class QuleTest extends TestCase
         $this->assertSame('GET', $request->getMethod());
         $this->assertSame('', (string) $request->getUri());
         $this->assertSame('application/graphql', $request->getHeaderLine('Content-Type'));
-        $this->assertSame('{"query":"{}"}', $request->getBody()->getContents());
+        $this->assertSame('{"query":"{}\n"}', $request->getBody()->getContents());
     }
 
     /** @test */
@@ -59,7 +59,7 @@ class QuleTest extends TestCase
         ]);
 
         $request = $this->handler->getLastRequest();
-        $this->assertSame('{"query":"{}","variables":{"foo":"bar"}}', $request->getBody()->getContents());
+        $this->assertSame('{"query":"{}\n","variables":{"foo":"bar"}}', $request->getBody()->getContents());
     }
 
     /** @test */
@@ -71,7 +71,7 @@ class QuleTest extends TestCase
         $qule->query(new QueryWithoutWrappingStub());
 
         $request = $this->handler->getLastRequest();
-        $this->assertSame('{}', $request->getBody()->getContents());
+        $this->assertSame("{}\n", $request->getBody()->getContents());
     }
 
     /** @test */
