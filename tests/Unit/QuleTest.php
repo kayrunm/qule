@@ -33,7 +33,7 @@ class QuleTest extends TestCase
     }
 
     /** @test */
-    public function it_builds_the_request()
+    public function it_builds_the_request(): void
     {
         $this->handler->append(new Response());
 
@@ -49,7 +49,7 @@ class QuleTest extends TestCase
     }
 
     /** @test */
-    public function it_passes_variables_to_the_request()
+    public function it_passes_variables_to_the_request(): void
     {
         $this->handler->append(new Response());
 
@@ -63,7 +63,7 @@ class QuleTest extends TestCase
     }
 
     /** @test */
-    public function it_doesnt_wrap_a_query_when_without_wrapping_is_enabled()
+    public function it_doesnt_wrap_a_query_when_without_wrapping_is_enabled(): void
     {
         $this->handler->append(new Response());
 
@@ -75,7 +75,7 @@ class QuleTest extends TestCase
     }
 
     /** @test */
-    public function it_loads_a_query_inline()
+    public function it_loads_a_query_inline(): void
     {
         $this->handler->append(new Response());
 
@@ -89,7 +89,7 @@ class QuleTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_an_exception_for_a_file_that_doesnt_exist()
+    public function it_throws_an_exception_for_a_file_that_doesnt_exist(): void
     {
         $this->expectException(QueryFileDoesntExist::class);
 
