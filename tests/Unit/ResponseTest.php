@@ -5,7 +5,6 @@ namespace Kayrunm\Qule\Tests\Unit;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Kayrunm\Qule\Response;
 use Kayrunm\Qule\Tests\TestCase;
-use LogicException;
 
 class ResponseTest extends TestCase
 {
