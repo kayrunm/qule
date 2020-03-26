@@ -18,12 +18,12 @@ class Response
      *
      * @var object
      */
-    protected $response;
+    protected $content;
 
     public function __construct(ResponseInterface $original)
     {
         $this->original = $original;
-        $this->response = json_decode($original->getBody()->getContents());
+        $this->content = $this->toObject();
     }
 
     /**
@@ -36,11 +36,6 @@ class Response
         return $this->original;
     }
 
-    public function toArray(): array
-    {
-        return (array) $this->response;
-    }
-
     /**
      * Determine whether the given key is set in the JSON response
      * from the API.
@@ -50,7 +45,7 @@ class Response
      */
     public function __isset(string $key): bool
     {
-        return isset($this->response->{$key});
+        return isset($this->content->{$key});
     }
 
     /**
@@ -60,6 +55,26 @@ class Response
      */
     public function __get(string $key)
     {
-        return $this->response->{$key} ?? null;
+        return $this->content->{$key} ?? null;
+    }
+
+    public function toArray(): ?array
+    {
+        return json_decode($this->toString(), true);
+    }
+
+    public function toObject(): ?object
+    {
+        return json_decode($this->toString());
+    }
+
+    public function toString(): string
+    {
+        return (string) $this->original->getBody();
+    }
+
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 }

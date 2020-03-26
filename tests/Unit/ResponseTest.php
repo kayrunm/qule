@@ -37,4 +37,32 @@ class ResponseTest extends TestCase
         $this->assertEquals('foo', $response->data);
         $this->assertEquals(null, $response->operationName);
     }
+
+    /** @test */
+    public function it_casts_to_an_array(): void
+    {
+        $original = new GuzzleResponse(200, [], '{"data":"foo"}');
+        $response = new Response($original);
+
+        $this->assertEquals(['data' => 'foo'], $response->toArray());
+    }
+
+    /** @test */
+    public function it_casts_to_an_object(): void
+    {
+        $original = new GuzzleResponse(200, [], '{"data":"foo"}');
+        $response = new Response($original);
+
+        $this->assertEquals((object) ['data' => 'foo'], $response->toObject());
+    }
+
+    /** @test */
+    public function it_casts_to_a_string(): void
+    {
+        $original = new GuzzleResponse(200, [], '{"data":"foo"}');
+        $response = new Response($original);
+
+        $this->assertEquals('{"data":"foo"}', (string) $response);
+        $this->assertEquals('{"data":"foo"}', $response->toString());
+    }
 }
