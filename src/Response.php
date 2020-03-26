@@ -2,11 +2,9 @@
 
 namespace Kayrunm\Qule;
 
-use ArrayAccess;
-use LogicException;
 use Psr\Http\Message\ResponseInterface;
 
-class Response implements ArrayAccess
+class Response
 {
     /**
      * The original response returned from the API.
@@ -41,28 +39,6 @@ class Response implements ArrayAccess
     public function toArray(): array
     {
         return (array) $this->response;
-    }
-
-    public function offsetExists($offset): bool
-    {
-        return isset($this->toArray()[$offset]);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->toArray()[$offset] ?? null;
-    }
-
-    /** @throws \LogicException */
-    public function offsetSet($offset, $value): void
-    {
-        throw new LogicException('Response is immutable.');
-    }
-
-    /** @throws \LogicException */
-    public function offsetUnset($offset): void
-    {
-        throw new LogicException('Response is immutable.');
     }
 
     /**
