@@ -4,9 +4,9 @@ namespace Kayrunm\Qule\Tests\Support\Stubs;
 
 use Kayrunm\Qule\Query;
 
-class QueryWithoutWrappingStub extends Query
+class QueryWithoutJsonStub extends Query
 {
-    public $withoutWrapping = true;
+    protected $contentType = 'application/graphql';
 
     protected $file = 'query-from-file';
 }

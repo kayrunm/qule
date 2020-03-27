@@ -48,7 +48,7 @@ class Qule
     {
         $queryString = $this->getQueryString($query);
 
-        if ($query->withoutWrapping) {
+        if (! $query->isJson()) {
             return $queryString;
         }
 

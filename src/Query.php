@@ -22,12 +22,12 @@ abstract class Query
 
     /**
      * This is the content type header that your GraphQL API expects
-     * to receive. Usually this is application/graphql, but some
-     * APIs will expect application/json.
+     * to receive. You can set this to application/graphql but you
+     * won't be able to pass variables.
      *
      * @var string
      */
-    protected $contentType = 'application/graphql';
+    protected $contentType = 'application/json';
 
     /**
      * The variables to send along with the query. You can set default
@@ -52,14 +52,6 @@ abstract class Query
      * @var array
      */
     protected $extra = [];
-
-    /**
-     * If this is set to true, the query will not be wrapped in a JSON object
-     * when querying the API.
-     *
-     * @var bool
-     */
-    public $withoutWrapping = false;
 
     public function getMethod(): string
     {
@@ -89,5 +81,10 @@ abstract class Query
     public function getExtra(): array
     {
         return $this->extra;
+    }
+
+    public function isJson(): bool
+    {
+        return $this->contentType === 'application/json';
     }
 }

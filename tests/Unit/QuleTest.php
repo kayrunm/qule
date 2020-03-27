@@ -3,16 +3,16 @@
 namespace Kayrunm\Qule\Tests\Unit;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response as GuzzleResponse;
-use Kayrunm\Qule\Exceptions\QueryFileDoesntExist;
 use Kayrunm\Qule\Qule;
 use Kayrunm\Qule\Response;
-use Kayrunm\Qule\Tests\Support\Stubs\InlineQueryStub;
-use Kayrunm\Qule\Tests\Support\Stubs\QueryStub;
-use Kayrunm\Qule\Tests\Support\Stubs\QueryWithoutWrappingStub;
+use GuzzleHttp\HandlerStack;
 use Kayrunm\Qule\Tests\TestCase;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use Kayrunm\Qule\Tests\Support\Stubs\QueryStub;
+use Kayrunm\Qule\Exceptions\QueryFileDoesntExist;
+use Kayrunm\Qule\Tests\Support\Stubs\InlineQueryStub;
+use Kayrunm\Qule\Tests\Support\Stubs\QueryWithoutJsonStub;
 
 class QuleTest extends TestCase
 {
@@ -46,7 +46,7 @@ class QuleTest extends TestCase
 
         $this->assertSame('GET', $request->getMethod());
         $this->assertSame('', (string) $request->getUri());
-        $this->assertSame('application/graphql', $request->getHeaderLine('Content-Type'));
+        $this->assertSame('application/json', $request->getHeaderLine('Content-Type'));
         $this->assertSame('{"query":"{}\n"}', $request->getBody()->getContents());
     }
 
@@ -65,12 +65,12 @@ class QuleTest extends TestCase
     }
 
     /** @test */
-    public function it_doesnt_wrap_a_query_when_without_wrapping_is_enabled(): void
+    public function it_doesnt_wrap_a_query_when_content_type_isnt_json(): void
     {
         $this->handler->append(new GuzzleResponse());
 
         $qule = new Qule($this->guzzle, $this->filepath);
-        $qule->query(new QueryWithoutWrappingStub());
+        $qule->query(new QueryWithoutJsonStub());
 
         $request = $this->handler->getLastRequest();
         $this->assertSame("{}\n", $request->getBody()->getContents());
