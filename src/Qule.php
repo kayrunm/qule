@@ -40,7 +40,9 @@ class Qule
             ]
         );
 
-        return new Response($response);
+        $responseClass = $query->getResponseClass();
+
+        return new $responseClass($response);
     }
 
     /** @return string */

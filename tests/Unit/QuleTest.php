@@ -3,16 +3,20 @@
 namespace Kayrunm\Qule\Tests\Unit;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use Kayrunm\Qule\Exceptions\InvalidResponseClass;
+use Kayrunm\Qule\Exceptions\QueryFileDoesntExist;
 use Kayrunm\Qule\Qule;
 use Kayrunm\Qule\Response;
-use GuzzleHttp\HandlerStack;
-use Kayrunm\Qule\Tests\TestCase;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Psr7\Response as GuzzleResponse;
-use Kayrunm\Qule\Tests\Support\Stubs\QueryStub;
-use Kayrunm\Qule\Exceptions\QueryFileDoesntExist;
+use Kayrunm\Qule\Tests\Support\Stubs\CustomResponseStub;
 use Kayrunm\Qule\Tests\Support\Stubs\InlineQueryStub;
+use Kayrunm\Qule\Tests\Support\Stubs\QueryStub;
+use Kayrunm\Qule\Tests\Support\Stubs\QueryWithCustomResponseStub;
+use Kayrunm\Qule\Tests\Support\Stubs\QueryWithInvalidCustomResponseStub;
 use Kayrunm\Qule\Tests\Support\Stubs\QueryWithoutJsonStub;
+use Kayrunm\Qule\Tests\TestCase;
 
 class QuleTest extends TestCase
 {
@@ -108,5 +112,28 @@ class QuleTest extends TestCase
         $response = $qule->query(new QueryStub());
 
         $this->assertInstanceOf(Response::class, $response);
+    }
+
+    /** @test */
+    public function it_returns_a_custom_response_object(): void
+    {
+        $this->handler->append(new GuzzleResponse());
+
+        $qule = new Qule($this->guzzle, $this->filepath);
+        $response = $qule->query(new QueryWithCustomResponseStub());
+
+        $this->assertInstanceOf(CustomResponseStub::class, $response);
+    }
+
+    /** @test */
+    public function it_throws_exception_for_invalid_custom_response(): void
+    {
+        $this->expectException(InvalidResponseClass::class);
+
+        $this->handler->append(new GuzzleResponse());
+
+        $qule = new Qule($this->guzzle, $this->filepath);
+
+        $qule->query(new QueryWithInvalidCustomResponseStub());
     }
 }

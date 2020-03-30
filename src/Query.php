@@ -2,6 +2,9 @@
 
 namespace Kayrunm\Qule;
 
+use ReflectionClass;
+use Kayrunm\Qule\Exceptions\InvalidResponseClass;
+
 abstract class Query
 {
     /**
@@ -53,6 +56,13 @@ abstract class Query
      */
     protected $extra = [];
 
+    /**
+     * The class to return the response as.
+     *
+     * @var string
+     */
+    protected $response = Response::class;
+
     public function getMethod(): string
     {
         return $this->method;
@@ -71,6 +81,20 @@ abstract class Query
     public function getVariables(): array
     {
         return $this->variables;
+    }
+
+    public function getResponseClass(): string
+    {
+        $reflection = new ReflectionClass($this->response);
+
+        if (
+            $this->response === Response::class
+            || $reflection->isSubclassOf(Response::class)
+        ) {
+            return $this->response;
+        }
+
+        throw InvalidResponseClass::make($this->response);
     }
 
     public function getFile(): ?string

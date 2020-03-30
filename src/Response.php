@@ -28,8 +28,6 @@ class Response
 
     /**
      * Return the original response from the API.
-     *
-     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getOriginalResponse(): ResponseInterface
     {
@@ -39,9 +37,6 @@ class Response
     /**
      * Determine whether the given key is set in the JSON response
      * from the API.
-     *
-     * @param string $key
-     * @return boolean
      */
     public function __isset(string $key): bool
     {
