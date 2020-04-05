@@ -16,6 +16,16 @@ class Response
     public function __construct(ResponseInterface $original)
     {
         $this->original = $original;
+
+        $this->setUp($this->toObject());
+    }
+
+    /**
+     * This method can be used to set up your response. It receives
+     * the JSON-decoded response as an argument.
+     */
+    protected function setUp(object $data): void
+    {
     }
 
     /**
