@@ -13,17 +13,9 @@ class Response
      */
     protected $original;
 
-    /**
-     * The JSON-decoded response.
-     *
-     * @var object
-     */
-    protected $content;
-
     public function __construct(ResponseInterface $original)
     {
         $this->original = $original;
-        $this->content = $this->toObject();
     }
 
     /**
@@ -32,25 +24,6 @@ class Response
     public function getOriginalResponse(): ResponseInterface
     {
         return $this->original;
-    }
-
-    /**
-     * Determine whether the given key is set in the JSON response
-     * from the API.
-     */
-    public function __isset(string $key): bool
-    {
-        return isset($this->content->{$key});
-    }
-
-    /**
-     * Get the data with the given key from the JSON response.
-     *
-     * @return mixed
-     */
-    public function __get(string $key)
-    {
-        return $this->content->{$key} ?? null;
     }
 
     public function toArray(): ?array

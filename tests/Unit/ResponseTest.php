@@ -18,26 +18,6 @@ class ResponseTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_given_key_is_set(): void
-    {
-        $original = new GuzzleResponse(200, [], '{"data":"foo"}');
-        $response = new Response($original);
-
-        $this->assertTrue(isset($response->data));
-        $this->assertFalse(isset($response->operationName));
-    }
-
-    /** @test */
-    public function it_returns_value_at_given_key(): void
-    {
-        $original = new GuzzleResponse(200, [], '{"data":"foo"}');
-        $response = new Response($original);
-
-        $this->assertEquals('foo', $response->data);
-        $this->assertEquals(null, $response->operationName);
-    }
-
-    /** @test */
     public function it_casts_to_an_array(): void
     {
         $original = new GuzzleResponse(200, [], '{"data":"foo"}');
