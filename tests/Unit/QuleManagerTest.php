@@ -19,8 +19,8 @@ class QuleManagerTest extends TestCase
     public function it_registers_connections(): void
     {
         $manager = new QuleManager();
-        $manager->connection('default', new Client());
-        $manager->connection('secondary', new Client());
+        $manager->register('default', new Client());
+        $manager->register('secondary', new Client());
 
         $this->assertCount(2, $manager->getConnections());
     }
@@ -29,7 +29,7 @@ class QuleManagerTest extends TestCase
     public function it_returns_connection_instances(): void
     {
         $manager = new QuleManager();
-        $manager->connection('default', new Client());
+        $manager->register('default', new Client());
 
         $this->assertInstanceOf(Qule::class, $manager->on('default'));
     }
@@ -42,7 +42,7 @@ class QuleManagerTest extends TestCase
         $guzzle = new Client(['handler' => HandlerStack::create($handler)]);
 
         $manager = new QuleManager();
-        $manager->connection('default', $guzzle);
+        $manager->register('default', $guzzle);
 
         $response = $manager->query(new InlineQueryStub());
 
@@ -57,7 +57,7 @@ class QuleManagerTest extends TestCase
         $guzzle = new Client(['handler' => HandlerStack::create($handler)]);
 
         $manager = new QuleManager('', 'foo');
-        $manager->connection('foo', $guzzle);
+        $manager->register('foo', $guzzle);
 
         $response = $manager->query(new InlineQueryStub());
 

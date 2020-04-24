@@ -51,7 +51,7 @@ class QuleManager
     /**
      * Register a new Qule connection.
      */
-    public function connection(
+    public function register(
         string $key,
         ClientInterface $guzzle,
         ?string $path = null
